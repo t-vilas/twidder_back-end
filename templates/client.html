@@ -1,0 +1,117 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<link href="{{ url_for('static', filename='stylesheets/client.css') }}" type="text/css" rel="stylesheet">
+		<script src="{{ url_for('static', filename='stylesheets/client.js') }}" type="text/javascript"></script>
+		<script src="serverstub.js" type="text/javascript"></script>
+	</head>
+	<body>
+
+
+		{% if token %}
+		<div id="profileview">
+			<div>logged as {{ token|tojson|safe }}</div>
+		
+		<button class="topbtn" onclick="tabdisplay(1);">Home</button>
+		<button class="topbtn" onclick="tabdisplay(2);">Browse</button>
+		<button class="topbtn" onclick="tabdisplay(3);">Account</button>
+		<div id="tabcontent"></div>
+			<div id="home">
+			
+				<div id="userinfo"></div>
+				<form onsubmit="postmess();" id="postmess">
+					<textarea id="newmess" required="true" rows="4" cols="50"placeholder="message"></textarea>
+					<input type="submit">
+				</form>
+				<div id='wall'></div>
+				<button class="reload" onclick="reloadwall();">Reload</button>
+
+			</div>
+		</div>
+		{% else %}
+		<div id="nonlogview"></div>
+		{% endif %}
+
+		<script type="text/view" id="notlogview">
+
+		<div id="left">
+			<img src="{{ url_for('static', filename='stylesheets/wimage.png') }}"/>
+		</div>
+		<div id="right">
+		<form name="sign-in" id="sign-in" action="/signin" method="POST">
+			<input type="email" id="siemail" name="siemail" placeholder="Email" autofocus="true">
+			<input type="password" name="sipassword" id="sipassword" placeholder="Password">
+			<input type="submit">
+
+		</form>
+		<form onsubmit="signup();" name="sign-up" id="sign-up">
+			<h3>Sign up here</h3>
+			<input type="email" id="email" name="username" required="true" placeholder="Email" required="true">
+			<input type="password" name="password" id="password" placeholder="Enter password" required="true">
+			<input type="password" name="repeat_password" id="repeat_password" placeholder="Repeat password" required="true">
+			<input type="text" name="firstname" id="firstname" placeholder="Firstname" required="true">
+			<input type="text" name="familyname" id="familyname" placeholder="Family name" required="true">
+			<select id="gender" required="true">
+				<option value="male">male</option>
+				<option value="male">female</option>
+			</select>
+			<input type="text" name="city" id="city" placeholder="City" required="true">
+			<input type="text" name="country" id="country" placeholder="Country" required="true">
+			<input type="submit">
+		</form>
+		</div>
+
+		</script>
+		<script type="text/view" id="logview">
+
+		<div>logged in !!!</div>
+		
+		<button class="topbtn" onclick="tabdisplay(1);">Home</button>
+		<button class="topbtn" onclick="tabdisplay(2);">Browse</button>
+		<button class="topbtn" onclick="tabdisplay(3);">Account</button>
+		<div id="tabcontent"></div>
+			<div id="home">
+			
+				<div id="userinfo"></div>
+				<form onsubmit="postmess();" id="postmess">
+					<textarea id="newmess" required="true" rows="4" cols="50"placeholder="message"></textarea>
+					<input type="submit">
+				</form>
+				<div id='wall'></div>
+				<button class="reload" onclick="reloadwall();">Reload</button>
+
+			</div>
+
+			<div id="browse">
+
+				<form id="finduser" onsubmit="return false;">
+					<input id="usermail" type="email" required="true" placeholder="email">
+					<input type="button" value="Find" onclick="finduser();">
+				</form>
+				<div id="showwall">
+				<form onsubmit="return false;" id="postmess">
+					<textarea id="newmessonwall" required="true" rows="4" cols="50" placeholder="message"></textarea>
+					<input type="button" value="Post" onclick="postmess(1);">
+				</form>
+				<div id='userwallinfo'></div>
+				<div id='wallb'></div>
+				<button class="reload" onclick="reloadwall(1);">Reload</button>
+				</div>
+
+			</div>
+
+			<div id="account">
+
+				<form id="cgpass" onsubmit="changepass()";>
+					<input type="password" id="oldpwd" required="true" placeholder="old password">
+					<input type="password" id="newpwd" required="true" placeholder="new password">
+					<input type="submit">
+				</form>
+				<button onclick="logout();">LogOut</button>
+
+			</div>
+		</script>
+
+
+	</body>
+</html>
